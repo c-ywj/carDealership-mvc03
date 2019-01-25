@@ -35,8 +35,15 @@ namespace car_dealership
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var connection1 = Configuration.GetConnectionString("CarDealershipConnection");
-            services.AddDbContext<CarDealershipContext>(options => options.UseSqlServer(connection1));
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+                services.AddDbContext<CarDealershipContext>(options =>
+                        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            else
+                services.AddDbContext<CarDealershipContext>(options =>
+                        options.UseSqlServer(Configuration.GetConnectionString("CarDealershipConnection")));
+
+            //var connection1 = Configuration.GetConnectionString("CarDealershipConnection");
+            //services.AddDbContext<CarDealershipContext>(options => options.UseSqlServer(connection1));
 
             services.AddHttpContextAccessor();
             services.AddSession(options => {
