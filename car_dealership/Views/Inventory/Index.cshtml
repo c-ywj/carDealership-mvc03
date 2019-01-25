@@ -1,0 +1,78 @@
+﻿@model IEnumerable<car_dealership.Models.Inventory>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (ViewData["CurrentSort"].ToString() == "year_asc")
+{
+    ViewData["SortYear"] = "year_desc";
+    ViewData["SortModel"] = "model_asc";
+}
+else if (ViewData["CurrentSort"].ToString() == "model_asc")
+{
+    ViewData["SortModel"] = "model_desc";
+    ViewData["SortYear"] = "year_asc";
+}
+else
+{
+    //it's either title_desc or description_desc
+    ViewData["SortYear"] = "year_asc";
+    ViewData["SortModel"] = "model_asc";
+}
+
+
+<h2>Inventory</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Search:
+            <input type="text" name="searchString" value="@ViewData["CurrentFilter"]"
+                   placeholder="Enter Model Name" />
+            <input type="submit" value="Search" class="btn btn-default" />
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder=@ViewData["SortModel"]>Model</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder=@ViewData["SortYear"]>Year</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qty)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModelModelName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModelModelYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qty)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.StockId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.StockId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.StockId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
