@@ -15,14 +15,14 @@ namespace car_dealership.Repo.Manufacturer_Repo
             this.db = db;
         }
 
-        public IEnumerable<Manufacturer> GetAll()
+        public List<Manufacturer> GetAll()
         {
-            var mList = db.Manufacturer
+            List<Manufacturer> mList = db.Manufacturer
                 .Select(m => new Manufacturer()
                 {
                     Make = m.Make,
                     Origin = m.Origin
-                });
+                }).ToList();
             return mList;
         }
 

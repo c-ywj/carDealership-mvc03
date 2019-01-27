@@ -20,7 +20,7 @@ namespace car_dealership.Controllers
         public IActionResult Index()
         {
             ManufacturerRepo mRepo = new ManufacturerRepo(db);
-            var mList = mRepo.GetAll();
+            List<Manufacturer> mList = mRepo.GetAll();
             return View(mList);
         }
 
